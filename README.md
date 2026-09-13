@@ -1,2 +1,2 @@
 ## Walk You Home
-Your Ai Companion
+Your Ai Companion for safe walks home
