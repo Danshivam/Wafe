@@ -1,3 +1,5 @@
+import uuid
+
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -11,12 +13,20 @@ from app.calle.tasks import (
 router = APIRouter()
 
 
+WEBHOOK_URL = (
+    "https://subdivide-stout-squatted.ngrok-free.dev"
+    "/api/webhook/calle"
+)
+
+
 class StartSessionRequest(BaseModel):
     phone_number: str
 
 
 @router.post("/start")
 def start_session(request: StartSessionRequest):
+
+    session_id = f"walk_{uuid.uuid4().hex[:8]}"
 
     call = client.calls.create(
         task=f"""
@@ -27,10 +37,15 @@ Call this phone number:
 {request.phone_number}
 """,
         result_schema=WALK_ME_HOME_RESULT_SCHEMA,
+        metadata={
+            "session_id": session_id,
+        },
+        webhook_url=WEBHOOK_URL,
     )
 
     return {
-        "session_status": "starting",
+        "session_id": session_id,
         "call_id": call["id"],
         "calle_status": call["status"],
+        "session_status": "starting",
     }
