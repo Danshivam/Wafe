@@ -2,6 +2,11 @@ from fastapi import FastAPI
 
 from app.api.sessions import router as sessions_router
 from app.api.webhooks import router as webhooks_router
+from app.database.database import initialize_database
+from app.api.incidents import router as incidents_router
+
+
+initialize_database()
 
 
 app = FastAPI(
@@ -20,6 +25,11 @@ app.include_router(
     prefix="/api/webhook",
 )
 
+app.include_router(
+    incidents_router,
+    prefix="/api/incidents",
+)
+
 
 @app.get("/")
 def root():
@@ -34,3 +44,4 @@ def health():
     return {
         "status": "ok",
     }
+
