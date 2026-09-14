@@ -9,6 +9,10 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 from app.api.alerts import router as alerts_router
 
+from app.api.session_status import (
+    router as session_status_router
+)
+
 
 initialize_database()
 
@@ -44,6 +48,11 @@ app.include_router(
     prefix="/api/alerts",
 )
 
+app.include_router(
+    session_status_router,
+    prefix="/api/session/status",
+)
+
 
 @app.get("/")
 def root():
@@ -65,3 +74,18 @@ def location_test():
         Path(__file__).parent / "static" / "location_test.html"
     )
 
+@app.get("/trusted-contact")
+def trusted_contact():
+    return FileResponse(
+        Path(__file__).parent
+        / "static"
+        / "trusted_contact.html"
+    )
+
+@app.get("/walk")
+def walk_home():
+    return FileResponse(
+        Path(__file__).parent
+        / "static"
+        / "user.html"
+    )

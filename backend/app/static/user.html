@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CALL-E — Walk Me Home</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fafc,
+                    #eef2ff
+                );
+
+            color: #111827;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            min-height: 100vh;
+            padding: 24px 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .badge {
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #e0e7ff;
+            color: #3730a3;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hero {
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            width: 96px;
+            height: 96px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #dcfce7;
+
+            font-size: 42px;
+        }
+
+        .hero h1 {
+            margin: 24px 0 10px;
+            font-size: 34px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .card {
+            margin-top: 28px;
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(15, 23, 42, 0.08);
+        }
+
+        .status-card {
+            text-align: center;
+        }
+
+        .status {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .status-description {
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #64748b;
+        }
+
+        .info-value {
+            font-weight: 700;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 17px;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .start-button {
+            background: #111827;
+            color: white;
+        }
+
+        .stop-button {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .danger {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+        }
+
+        .danger .hero-icon {
+            background: #fecaca;
+        }
+
+        .danger .status {
+            color: #b91c1c;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .small {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+
+        <div class="logo">
+            CALL-E
+        </div>
+
+        <div class="badge">
+            WALK ME HOME
+        </div>
+
+    </div>
+
+
+    <!-- START SCREEN -->
+
+    <div id="startScreen">
+
+        <div class="hero">
+
+            <div class="hero-icon">
+                🛡️
+            </div>
+
+            <h1>
+                Walk Me Home
+            </h1>
+
+            <p>
+                CALL-E stays on the phone with you
+                while you walk and helps you get help
+                if something goes wrong.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <label>
+                Your phone number
+            </label>
+
+            <input
+                id="phoneNumber"
+                type="tel"
+                placeholder="+91..."
+                style="
+                    width:100%;
+                    padding:14px;
+                    margin-top:8px;
+                    border:1px solid #cbd5e1;
+                    border-radius:10px;
+                    font-size:16px;
+                "
+            >
+
+        </div>
+
+
+        <div class="card">
+
+            <button
+                class="start-button"
+                onclick="startWalk()"
+            >
+                Start Walk Home
+            </button>
+
+            <p class="small">
+                You'll receive a CALL-E phone call.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVE SCREEN -->
+
+    <div
+        id="activeScreen"
+        class="hidden"
+    >
+
+        <div class="hero">
+
+            <div
+                id="heroIcon"
+                class="hero-icon"
+            >
+                📞
+            </div>
+
+            <h1 id="statusTitle">
+                Starting...
+            </h1>
+
+            <p id="statusDescription">
+                CALL-E is preparing your safety call.
+            </p>
+
+        </div>
+
+
+        <div class="card status-card">
+
+            <div
+                id="mainStatus"
+                class="status"
+            >
+                🟡 Starting
+            </div>
+
+            <div
+                id="mainStatusDescription"
+                class="status-description"
+            >
+                Please keep your phone nearby.
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    📞 Call
+                </span>
+
+                <span
+                    id="callStatus"
+                    class="info-value"
+                >
+                    Starting
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    📍 Location
+                </span>
+
+                <span
+                    id="locationStatus"
+                    class="info-value"
+                >
+                    Starting
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="info-label">
+                    ⏱ Session
+                </span>
+
+                <span
+                    id="sessionTime"
+                    class="info-value"
+                >
+                    00:00
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="dangerCard"
+            class="card danger hidden"
+        >
+
+            <div class="status">
+                🚨 Safety Alert
+            </div>
+
+            <p>
+                CALL-E detected a possible safety
+                incident and your trusted contact
+                has been alerted.
+            </p>
+
+            <p id="dangerReason">
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <button
+                id="stopButton"
+                class="stop-button"
+                onclick="endWalk()"
+            >
+                End Walk
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let sessionId = null;
+
+let statusInterval = null;
+
+let locationWatchId = null;
+
+let sessionStartedAt = null;
+
+let previousAlertIds = new Set();
+
+
+/* ---------------------------------- */
+/* START SESSION                      */
+/* ---------------------------------- */
+
+async function startWalk() {
+
+    const phoneNumber =
+        document
+            .getElementById("phoneNumber")
+            .value
+            .trim();
+
+
+    if (!phoneNumber) {
+
+        alert(
+            "Please enter your phone number."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/session/start",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        phone_number:
+                            phoneNumber
+                    })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to start session"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        sessionId =
+            data.session_id;
+
+
+        sessionStartedAt =
+            new Date();
+
+
+        document
+            .getElementById("startScreen")
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById("activeScreen")
+            .classList
+            .remove("hidden");
+
+
+        startLocationTracking();
+
+        startStatusPolling();
+
+        updateTimer();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not start your safety session."
+        );
+    }
+}
+
+
+/* ---------------------------------- */
+/* LOCATION                            */
+/* ---------------------------------- */
+
+function startLocationTracking() {
+
+    if (!navigator.geolocation) {
+
+        document
+            .getElementById(
+                "locationStatus"
+            )
+            .textContent =
+            "Unavailable";
+
+        return;
+    }
+
+
+    locationWatchId =
+        navigator.geolocation.watchPosition(
+
+            async function(position) {
+
+                const location = {
+                    session_id:
+                        sessionId,
+
+                    latitude:
+                        position.coords.latitude,
+
+                    longitude:
+                        position.coords.longitude,
+
+                    accuracy:
+                        position.coords.accuracy
+                };
+
+
+                try {
+
+                    await fetch(
+                        "/api/location",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    location
+                                )
+                        }
+                    );
+
+
+                    document
+                        .getElementById(
+                            "locationStatus"
+                        )
+                        .textContent =
+                        "Active";
+
+                } catch (error) {
+
+                    console.error(
+                        "GPS update failed:",
+                        error
+                    );
+
+                }
+
+            },
+
+            function(error) {
+
+                console.error(
+                    "GPS error:",
+                    error
+                );
+
+                document
+                    .getElementById(
+                        "locationStatus"
+                    )
+                    .textContent =
+                    "Unavailable";
+
+            },
+
+            {
+                enableHighAccuracy:
+                    true,
+
+                maximumAge:
+                    5000,
+
+                timeout:
+                    10000
+            }
+        );
+}
+
+
+/* ---------------------------------- */
+/* SESSION STATUS                     */
+/* ---------------------------------- */
+
+function startStatusPolling() {
+
+    updateSessionStatus();
+
+
+    statusInterval =
+        setInterval(
+            updateSessionStatus,
+            3000
+        );
+}
+
+
+async function updateSessionStatus() {
+
+    if (!sessionId) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/session/status/${sessionId}`
+            );
+
+
+        if (!response.ok) {
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        updateUI(
+            data
+        );
+
+
+        await checkAlerts();
+
+
+    } catch (error) {
+
+        console.error(
+            "Status update failed:",
+            error
+        );
+    }
+}
+
+
+/* ---------------------------------- */
+/* UPDATE UI                          */
+/* ---------------------------------- */
+
+function updateUI(data) {
+
+    const calleStatus =
+        data.calle_status;
+
+
+    const callStatus =
+        document.getElementById(
+            "callStatus"
+        );
+
+
+    callStatus.textContent =
+        calleStatus;
+
+
+    if (
+        calleStatus === "queued"
+    ) {
+
+        setNormalStatus(
+            "🟡 CALL STARTING",
+            "CALL-E is preparing your phone call."
+        );
+
+    }
+    else if (
+        calleStatus === "in_progress"
+    ) {
+
+        setNormalStatus(
+            "🟢 CALL-E IS WITH YOU",
+            "Stay on the line while you walk."
+        );
+
+    }
+    else if (
+        calleStatus === "completed"
+    ) {
+
+        setNormalStatus(
+            "⚪ SESSION ENDED",
+            "Your CALL-E safety session has ended."
+        );
+
+    }
+    else if (
+        calleStatus === "failed"
+    ) {
+
+        setNormalStatus(
+            "⚠️ CALL FAILED",
+            "The CALL-E phone call could not be completed."
+        );
+
+    }
+
+}
+
+
+/* ---------------------------------- */
+/* NORMAL STATUS                      */
+/* ---------------------------------- */
+
+function setNormalStatus(
+    title,
+    description
+) {
+
+    document
+        .getElementById("statusTitle")
+        .textContent = title;
+
+
+    document
+        .getElementById("statusDescription")
+        .textContent =
+        description;
+
+
+    document
+        .getElementById("mainStatus")
+        .textContent =
+        title;
+
+
+    document
+        .getElementById(
+            "mainStatusDescription"
+        )
+        .textContent =
+        description;
+
+}
+
+
+/* ---------------------------------- */
+/* ALERTS                             */
+/* ---------------------------------- */
+
+async function checkAlerts() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/alerts"
+            );
+
+
+        const data =
+            await response.json();
+
+
+        const alerts =
+            data.alerts || [];
+
+
+        const activeAlert =
+            alerts.find(
+                alert =>
+                    alert.status === "new"
+            );
+
+
+        if (activeAlert) {
+
+            showDanger(
+                activeAlert
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Alert check failed:",
+            error
+        );
+    }
+}
+
+
+function showDanger(alert) {
+
+    document
+        .getElementById(
+            "heroIcon"
+        )
+        .textContent = "🚨";
+
+
+    document
+        .getElementById(
+            "statusTitle"
+        )
+        .textContent =
+        "DANGER DETECTED";
+
+
+    document
+        .getElementById(
+            "statusDescription"
+        )
+        .textContent =
+        "Your trusted contact has been alerted.";
+
+
+    document
+        .getElementById(
+            "mainStatus"
+        )
+        .textContent =
+        "🔴 DANGER";
+
+
+    document
+        .getElementById(
+            "mainStatusDescription"
+        )
+        .textContent =
+        "Please move to a safe location if possible.";
+
+
+    document
+        .getElementById(
+            "dangerCard"
+        )
+        .classList
+        .remove("hidden");
+
+
+    document
+        .getElementById(
+            "dangerReason"
+        )
+        .textContent =
+        alert.message;
+
+
+    document
+        .getElementById(
+            "activeScreen"
+        )
+        .classList
+        .add("danger");
+}
+
+
+/* ---------------------------------- */
+/* TIMER                              */
+/* ---------------------------------- */
+
+function updateTimer() {
+
+    if (!sessionStartedAt) {
+        return;
+    }
+
+
+    const now =
+        new Date();
+
+
+    const seconds =
+        Math.floor(
+            (
+                now -
+                sessionStartedAt
+            ) / 1000
+        );
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remaining =
+        seconds % 60;
+
+
+    document
+        .getElementById(
+            "sessionTime"
+        )
+        .textContent =
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(remaining).padStart(2, "0")}`;
+
+
+    setTimeout(
+        updateTimer,
+        1000
+    );
+}
+
+
+/* ---------------------------------- */
+/* END SESSION                        */
+/* ---------------------------------- */
+
+function endWalk() {
+
+    if (
+        !confirm(
+            "End your Walk Me Home session?"
+        )
+    ) {
+        return;
+    }
+
+
+    if (
+        locationWatchId !== null
+    ) {
+
+        navigator
+            .geolocation
+            .clearWatch(
+                locationWatchId
+            );
+    }
+
+
+    if (
+        statusInterval !== null
+    ) {
+
+        clearInterval(
+            statusInterval
+        );
+    }
+
+
+    document
+        .getElementById(
+            "statusTitle"
+        )
+        .textContent =
+        "Session Ended";
+
+
+    document
+        .getElementById(
+            "statusDescription"
+        )
+        .textContent =
+        "You can safely close this page.";
+
+
+    document
+        .getElementById(
+            "stopButton"
+        )
+        .disabled = true;
+
+}
+
+</script>
+
+</body>
+</html>

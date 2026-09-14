@@ -4,6 +4,10 @@ from app.alerts.service import send_trusted_contact_alert
 from app.incidents.service import create_incident
 from app.safety.engine import safety_engine
 
+from app.session.service import (
+    update_session_status,
+)
+
 
 router = APIRouter()
 
@@ -43,6 +47,12 @@ async def calle_webhook(request: Request):
     print("Safety decision:")
     print(decision)
 
+    if session_id:
+        update_session_status(
+            session_id=session_id,
+            status=data.get("status", "unknown"),
+        )
+
     # Ignore non-terminal or irrelevant webhook events.
     if data.get("status") not in {
         "completed",
@@ -53,6 +63,8 @@ async def calle_webhook(request: Request):
             "received": True,
             "processed": False,
         }
+
+    
 
     # Ignore emergency-call webhooks here.
     if metadata.get("type") == "emergency_escalation":
@@ -102,7 +114,11 @@ async def calle_webhook(request: Request):
     print()
     print("🚨 TRUSTED CONTACT ALERT SENT")
     print("Channel:", alert["channel"])
-    
+
+    update_session_status(
+    session_id=session_id,
+    status="danger",
+)
 
     return {
     "received": True,
@@ -111,3 +127,5 @@ async def calle_webhook(request: Request):
     "incident_id": incident_id,
     "alert_status": alert["status"],
     }
+
+    

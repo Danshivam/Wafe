@@ -61,6 +61,19 @@ def initialize_database():
     """
 )
 
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS sessions (
+            id TEXT PRIMARY KEY,
+            call_id TEXT,
+            phone_number TEXT,
+            status TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            ended_at DATETIME
+        )
+        """
+)
+
     
 
     connection.commit()

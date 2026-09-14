@@ -8,6 +8,9 @@ from app.calle.tasks import (
     WALK_ME_HOME_TASK,
     WALK_ME_HOME_RESULT_SCHEMA,
 )
+from app.session.service import (
+    create_session,
+)
 
 
 router = APIRouter()
@@ -24,9 +27,13 @@ class StartSessionRequest(BaseModel):
 
 
 @router.post("/start")
-def start_session(request: StartSessionRequest):
+def start_session(
+    request: StartSessionRequest,
+):
 
-    session_id = f"walk_{uuid.uuid4().hex[:8]}"
+    session_id = (
+        f"walk_{uuid.uuid4().hex[:8]}"
+    )
 
     call = client.calls.create(
         task=f"""
@@ -41,6 +48,12 @@ Call this phone number:
             "session_id": session_id,
         },
         webhook_url=WEBHOOK_URL,
+    )
+
+    create_session(
+        session_id=session_id,
+        call_id=call["id"],
+        phone_number=request.phone_number,
     )
 
     return {
