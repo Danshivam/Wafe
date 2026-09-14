@@ -1,4 +1,5 @@
 from app.database.database import get_connection
+from app.location.service import get_location
 
 
 def create_incident(
@@ -6,6 +7,8 @@ def create_incident(
     call_id: str,
     decision: dict,
 ):
+    location = get_location(session_id)
+
     connection = get_connection()
 
     cursor = connection.execute(
@@ -36,4 +39,7 @@ def create_incident(
 
     connection.close()
 
-    return incident_id
+    return {
+        "incident_id": incident_id,
+        "location": location,
+    }

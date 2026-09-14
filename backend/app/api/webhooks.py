@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request
 
-from app.safety.engine import safety_engine
+from app.alerts.service import send_trusted_contact_alert
 from app.incidents.service import create_incident
+from app.safety.engine import safety_engine
 
 
 router = APIRouter()
@@ -14,6 +15,8 @@ async def calle_webhook(request: Request):
 
     data = payload.get("data", payload)
 
+    metadata = data.get("metadata", {})
+
     safety_result = safety_engine.process_call_result(
         data
     )
@@ -21,39 +24,90 @@ async def calle_webhook(request: Request):
     decision = safety_result["decision"]
 
     session_id = (
-        safety_result
-        .get("metadata", {})
-        .get("session_id")
+        metadata.get("session_id")
     )
 
-    call_id = safety_result.get("call_id")
+    call_id = data.get("id")
 
     print()
     print("=" * 70)
     print("CALL-E WEBHOOK")
     print("=" * 70)
 
-    print("Call:", call_id)
+    print("Call ID:", call_id)
     print("Session:", session_id)
     print("Status:", data.get("status"))
+    print("Metadata:", metadata)
 
     print()
-    print("Safety:", decision)
+    print("Safety decision:")
+    print(decision)
 
-    # Create incident only when danger is detected
-    if decision["status"] == "danger":
+    # Ignore non-terminal or irrelevant webhook events.
+    if data.get("status") not in {
+        "completed",
+        "failed",
+        "canceled",
+    }:
+        return {
+            "received": True,
+            "processed": False,
+        }
 
-        incident_id = create_incident(
-            session_id=session_id,
-            call_id=call_id,
-            decision=decision,
-        )
-
+    # Ignore emergency-call webhooks here.
+    if metadata.get("type") == "emergency_escalation":
         print()
-        print("🚨 INCIDENT CREATED")
-        print("Incident ID:", incident_id)
+        print("Emergency escalation call webhook received.")
+
+        return {
+            "received": True,
+            "processed": True,
+            "type": "emergency_escalation",
+        }
+
+    # Only create an incident for danger.
+    if decision["status"] != "danger":
+        print()
+        print("No emergency escalation required.")
+
+        return {
+            "received": True,
+            "processed": True,
+            "safety_status": decision["status"],
+        }
+
+    # Create incident.
+    incident = create_incident(
+        session_id=session_id,
+        call_id=call_id,
+        decision=decision,
+    )
+
+    incident_id = incident["incident_id"]
+    location = incident["location"]
+
+    print()
+    print("INCIDENT CREATED")
+    print("Incident ID:", incident_id)
+    print("Location:", location)
+
+    # Escalate to trusted contact.
+    alert = send_trusted_contact_alert(
+    session_id=session_id,
+    incident_id=incident_id,
+    reason=decision["reason"],
+    location=location,
+)
+
+    print()
+    print("🚨 TRUSTED CONTACT ALERT SENT")
+    print("Channel:", alert["channel"])
+    
 
     return {
-        "received": True,
-        "safety_status": decision["status"],
+    "received": True,
+    "processed": True,
+    "safety_status": decision["status"],
+    "incident_id": incident_id,
+    "alert_status": alert["status"],
     }
