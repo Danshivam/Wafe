@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Request
 
-
 router = APIRouter()
 
 
@@ -8,10 +7,12 @@ router = APIRouter()
 async def calle_webhook(request: Request):
     payload = await request.json()
 
-    print("\n" + "=" * 60)
+    print()
+    print("=" * 70)
     print("CALL-E WEBHOOK RECEIVED")
-    print("=" * 60)
+    print("=" * 70)
     print(payload)
+    print("=" * 70)
 
     return {
         "received": True

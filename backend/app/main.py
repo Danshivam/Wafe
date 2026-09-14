@@ -1,13 +1,21 @@
 from fastapi import FastAPI
 
+from app.api.sessions import router as sessions_router
+
+
 app = FastAPI(
     title="CALL-E Walk Me Home",
-    version="0.1.0",
+)
+
+
+app.include_router(
+    sessions_router,
+    prefix="/api/session",
 )
 
 
 @app.get("/")
-async def root():
+def root():
     return {
         "name": "CALL-E Walk Me Home",
         "status": "running",
@@ -15,7 +23,7 @@ async def root():
 
 
 @app.get("/health")
-async def health():
+def health():
     return {
         "status": "ok",
     }
