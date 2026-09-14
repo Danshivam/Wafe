@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from fastapi.staticfiles import StaticFiles
 from app.api.sessions import router as sessions_router
 from app.api.webhooks import router as webhooks_router
 from app.database.database import initialize_database
@@ -8,6 +8,7 @@ from app.api.location import router as location_router
 from fastapi.responses import FileResponse
 from pathlib import Path
 from app.api.alerts import router as alerts_router
+from app.api.session_end import router as session_end_router
 
 from app.api.session_status import (
     router as session_status_router
@@ -22,6 +23,13 @@ app = FastAPI(
     version="0.1.0",
 )
 
+STATIC_DIR = Path(__file__).parent / "static"
+
+app.mount(
+    "/static",
+    StaticFiles(directory=STATIC_DIR),
+    name="static",
+)
 
 app.include_router(
     sessions_router,
@@ -51,6 +59,11 @@ app.include_router(
 app.include_router(
     session_status_router,
     prefix="/api/session/status",
+)
+
+app.include_router(
+    session_end_router,
+    prefix="/api/session/end",
 )
 
 

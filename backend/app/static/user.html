@@ -9,7 +9,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>CALL-E — Walk Me Home</title>
+    <meta
+        name="theme-color"
+        content="#0f172a"
+    >
+
+    <title>WAFE — Walk Me Home</title>
 
     <style>
 
@@ -17,35 +22,75 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #f8fafc;
+            --card: rgba(255, 255, 255, 0.94);
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+
+            --green: #16a34a;
+            --green-soft: #dcfce7;
+
+            --yellow: #d97706;
+            --yellow-soft: #fef3c7;
+
+            --red: #dc2626;
+            --red-dark: #b91c1c;
+            --red-soft: #fee2e2;
+        }
+
+        html,
         body {
             margin: 0;
-            min-height: 100vh;
+            min-height: 100%;
+        }
+
+        body {
             font-family:
                 Inter,
+                ui-sans-serif,
+                system-ui,
                 -apple-system,
                 BlinkMacSystemFont,
                 "Segoe UI",
                 sans-serif;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #f8fafc,
-                    #eef2ff
-                );
+            color: var(--text);
 
-            color: #111827;
+            background:
+                radial-gradient(
+                    circle at top,
+                    #e0e7ff 0,
+                    transparent 34%
+                ),
+                var(--bg);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
         }
 
         .app {
             width: 100%;
             max-width: 480px;
-            margin: auto;
             min-height: 100vh;
-            padding: 24px 18px;
+
+            margin: auto;
+            padding: 18px 16px 32px;
+
             display: flex;
             flex-direction: column;
         }
+
+        /* ========================================
+           HEADER
+        ======================================== */
 
         .header {
             display: flex;
@@ -53,30 +98,71 @@
             justify-content: space-between;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .badge {
-            padding: 7px 12px;
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+
+            object-fit: contain;
+            object-position: center;
+
+            border-radius: 12px;
+
+            background: white;
+
+            box-shadow:
+                0 4px 12px
+                rgba(15, 23, 42, 0.08);
+        }
+
+        .brand-name {
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: -0.6px;
+        }
+
+        .brand-subtitle {
+            margin-top: 1px;
+
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .session-badge {
+            padding: 7px 10px;
+
             border-radius: 999px;
-            background: #e0e7ff;
-            color: #3730a3;
-            font-size: 12px;
-            font-weight: 700;
+
+            background: #eef2ff;
+            color: #4338ca;
+
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: 0.05em;
+        }
+
+        /* ========================================
+           START SCREEN
+        ======================================== */
+
+        .start-screen {
+            padding-top: 58px;
         }
 
         .hero {
-            margin-top: 48px;
             text-align: center;
         }
 
-        .hero-icon {
-            width: 96px;
-            height: 96px;
-            margin: auto;
+        .hero-orb {
+            width: 112px;
+            height: 112px;
+
+            margin: 0 auto;
 
             display: flex;
             align-items: center;
@@ -84,110 +170,445 @@
 
             border-radius: 50%;
 
-            background: #dcfce7;
+            background:
+                linear-gradient(
+                    145deg,
+                    #e0e7ff,
+                    #eef2ff
+                );
 
-            font-size: 42px;
+            box-shadow:
+                0 16px 40px
+                rgba(79, 70, 229, 0.15);
+
+            font-size: 47px;
         }
 
         .hero h1 {
-            margin: 24px 0 10px;
-            font-size: 34px;
-            letter-spacing: -1px;
+            margin: 26px 0 10px;
+
+            font-size: 36px;
+            line-height: 1.05;
+
+            letter-spacing: -1.5px;
         }
 
         .hero p {
-            color: #64748b;
-            line-height: 1.6;
+            max-width: 390px;
+
+            margin: 0 auto;
+
+            color: var(--muted);
+
+            font-size: 15px;
+            line-height: 1.65;
         }
+
+        /* ========================================
+           FEATURES
+        ======================================== */
+
+        .feature-row {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+
+            margin-top: 30px;
+        }
+
+        .feature {
+            padding: 14px 8px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255, 255, 255, 0.75);
+        }
+
+        .feature-icon {
+            font-size: 21px;
+        }
+
+        .feature-title {
+            margin-top: 6px;
+
+            font-size: 11px;
+            font-weight: 850;
+        }
+
+        .feature-text {
+            margin-top: 3px;
+
+            font-size: 9px;
+            line-height: 1.3;
+
+            color: var(--muted);
+        }
+
+        /* ========================================
+           CARDS
+        ======================================== */
 
         .card {
-            margin-top: 28px;
-            background: white;
-            border-radius: 18px;
-            padding: 20px;
+            margin-top: 18px;
+
+            padding: 18px;
+
+            border:
+                1px solid
+                rgba(226, 232, 240, 0.9);
+
+            border-radius: 20px;
+
+            background: var(--card);
 
             box-shadow:
-                0 10px 30px
-                rgba(15, 23, 42, 0.08);
+                0 12px 35px
+                rgba(15, 23, 42, 0.055);
+
+            backdrop-filter: blur(12px);
         }
 
-        .status-card {
-            text-align: center;
+        .label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 12px;
+            font-weight: 850;
         }
 
-        .status {
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        .status-description {
-            margin-top: 8px;
-            color: #64748b;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 13px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: #64748b;
-        }
-
-        .info-value {
-            font-weight: 700;
-        }
-
-        button {
+        .phone-input {
             width: 100%;
-            border: none;
-            border-radius: 14px;
-            padding: 17px;
 
-            font-size: 17px;
-            font-weight: 800;
+            padding: 14px 15px;
+
+            border:
+                1px solid
+                #cbd5e1;
+
+            border-radius: 13px;
+
+            outline: none;
+
+            background: white;
+            color: var(--text);
+
+            font-size: 16px;
+        }
+
+        .phone-input:focus {
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(99, 102, 241, 0.11);
+        }
+
+        /* ========================================
+           BUTTONS
+        ======================================== */
+
+        .primary-button,
+        .danger-button {
+            width: 100%;
+
+            border: none;
+
+            border-radius: 14px;
+
+            padding: 16px;
+
+            font-size: 16px;
+            font-weight: 850;
 
             cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                opacity 0.15s ease;
         }
 
-        .start-button {
-            background: #111827;
+        .primary-button {
+            background: #0f172a;
             color: white;
         }
 
-        .stop-button {
-            background: #fee2e2;
-            color: #b91c1c;
+        .danger-button {
+            background: var(--red-soft);
+            color: var(--red-dark);
         }
 
-        .danger {
-            background: #fee2e2;
-            border: 2px solid #ef4444;
+        button:active {
+            transform: scale(0.985);
         }
 
-        .danger .hero-icon {
-            background: #fecaca;
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
         }
 
-        .danger .status {
-            color: #b91c1c;
+        .button-note {
+            margin: 10px 0 0;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* ========================================
+           ACTIVE SCREEN
+        ======================================== */
+
+        .active-screen {
+            padding-top: 34px;
+        }
+
+        .state-area {
+            text-align: center;
+        }
+
+        .state-orb {
+            width: 110px;
+            height: 110px;
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: var(--green-soft);
+
+            font-size: 42px;
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .state-orb.starting {
+            background: var(--yellow-soft);
+
+            animation:
+                pulse 1.8s infinite;
+        }
+
+        .state-orb.safe {
+            background: var(--green-soft);
+        }
+
+        .state-orb.danger {
+            background: var(--red-soft);
+
+            animation:
+                dangerPulse 1.3s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.035);
+            }
+        }
+
+        @keyframes dangerPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.055);
+            }
+        }
+
+        .state-title {
+            margin: 22px 0 7px;
+
+            font-size: 30px;
+
+            letter-spacing: -1px;
+        }
+
+        .state-description {
+            max-width: 360px;
+
+            margin: 0 auto;
+
+            color: var(--muted);
+
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        /* ========================================
+           LIVE STATUS
+        ======================================== */
+
+        .live-card {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 16px 17px;
+
+            background:
+                rgba(255, 255, 255, 0.85);
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+        }
+
+        .status-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f1f5f9;
+
+            font-size: 16px;
+        }
+
+        .status-label {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .status-value {
+            margin-top: 2px;
+
+            font-size: 14px;
+            font-weight: 850;
+        }
+
+        /* ========================================
+           DANGER
+        ======================================== */
+
+        .danger-card {
+            margin-top: 18px;
+
+            padding: 20px;
+
+            border:
+                2px solid
+                #ef4444;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #fff1f2,
+                    #fee2e2
+                );
+        }
+
+        .danger-label {
+            color: var(--red-dark);
+
+            font-size: 11px;
+            font-weight: 900;
+
+            letter-spacing: 0.07em;
+        }
+
+        .danger-title {
+            margin-top: 7px;
+
+            font-size: 23px;
+            font-weight: 900;
+
+            letter-spacing: -0.5px;
+        }
+
+        .danger-description {
+            margin-top: 9px;
+
+            color: #7f1d1d;
+
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .danger-reason {
+            margin-top: 15px;
+
+            padding: 13px 14px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.65);
+
+            color: #7f1d1d;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+
+        .footer {
+            margin-top: auto;
+
+            padding-top: 25px;
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            line-height: 1.5;
         }
 
         .hidden {
-            display: none;
-        }
-
-        .small {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 12px;
-            color: #94a3b8;
+            display: none !important;
         }
 
     </style>
@@ -198,60 +619,151 @@
 
 <div class="app">
 
-    <div class="header">
 
-        <div class="logo">
-            CALL-E
+    <!-- ====================================== -->
+    <!-- HEADER                                -->
+    <!-- ====================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <img
+                src="backend\app\static\wafe-logo1.png"
+                class="brand-logo"
+                alt="WAFE logo"
+            >
+
+            <div>
+
+                <div class="brand-name">
+                    WAFE
+                </div>
+
+                <div class="brand-subtitle">
+                    Your walking safety companion
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="badge">
+
+        <div class="session-badge">
             WALK ME HOME
         </div>
 
-    </div>
+    </header>
 
 
-    <!-- START SCREEN -->
+    <!-- ====================================== -->
+    <!-- START SCREEN                          -->
+    <!-- ====================================== -->
 
-    <div id="startScreen">
+    <section
+        id="startScreen"
+        class="start-screen"
+    >
 
         <div class="hero">
 
-            <div class="hero-icon">
-                🛡️
+            <div class="hero-orb">
+                 <img
+                src="backend\app\static\wafe-logo.png"
+                class="hero-orb"
+                alt="WAFE logo"
+            >
             </div>
+
 
             <h1>
                 Walk Me Home
             </h1>
 
+
             <p>
-                CALL-E stays on the phone with you
-                while you walk and helps you get help
-                if something goes wrong.
+                Stay connected while you walk.
+                WAFE keeps you company on a live
+                call and helps alert your trusted
+                contact when something goes wrong.
             </p>
+
+        </div>
+
+
+        <div class="feature-row">
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📞
+                </div>
+
+                <div class="feature-title">
+                    Live Call
+                </div>
+
+                <div class="feature-text">
+                    Natural conversation
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📍
+                </div>
+
+                <div class="feature-title">
+                    Location
+                </div>
+
+                <div class="feature-text">
+                    Last known position
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🚨
+                </div>
+
+                <div class="feature-title">
+                    Alert
+                </div>
+
+                <div class="feature-text">
+                    Trusted contact
+                </div>
+
+            </div>
+
 
         </div>
 
 
         <div class="card">
 
-            <label>
+            <label
+                class="label"
+                for="phoneNumber"
+            >
                 Your phone number
             </label>
 
+
             <input
                 id="phoneNumber"
+                class="phone-input"
                 type="tel"
-                placeholder="+91..."
-                style="
-                    width:100%;
-                    padding:14px;
-                    margin-top:8px;
-                    border:1px solid #cbd5e1;
-                    border-radius:10px;
-                    font-size:16px;
-                "
+                placeholder="+91 XXXXX XXXXX"
+                autocomplete="tel"
             >
 
         </div>
@@ -260,145 +772,212 @@
         <div class="card">
 
             <button
-                class="start-button"
+                class="primary-button"
                 onclick="startWalk()"
             >
                 Start Walk Home
             </button>
 
-            <p class="small">
-                You'll receive a CALL-E phone call.
+
+            <p class="button-note">
+                Keep your phone nearby and answer
+                the incoming safety call.
             </p>
 
         </div>
 
-    </div>
+
+        <div class="footer">
+
+            WAFE · Walk Me Home
+
+        </div>
+
+    </section>
 
 
-    <!-- ACTIVE SCREEN -->
+    <!-- ====================================== -->
+    <!-- ACTIVE SESSION                        -->
+    <!-- ====================================== -->
 
-    <div
+    <section
         id="activeScreen"
-        class="hidden"
+        class="active-screen hidden"
     >
 
-        <div class="hero">
+        <div class="state-area">
 
             <div
-                id="heroIcon"
-                class="hero-icon"
+                id="stateOrb"
+                class="state-orb starting"
             >
                 📞
             </div>
 
-            <h1 id="statusTitle">
-                Starting...
+
+            <h1
+                id="statusTitle"
+                class="state-title"
+            >
+                Starting your call
             </h1>
 
-            <p id="statusDescription">
-                CALL-E is preparing your safety call.
+
+            <p
+                id="statusDescription"
+                class="state-description"
+            >
+                Preparing your safety call.
+                Keep your phone nearby.
             </p>
 
         </div>
 
 
-        <div class="card status-card">
+        <!-- ================================== -->
+        <!-- STATUS CARD                        -->
+        <!-- ================================== -->
 
-            <div
-                id="mainStatus"
-                class="status"
-            >
-                🟡 Starting
+        <div class="card live-card">
+
+
+            <div class="status-row">
+
+                <div class="status-left">
+
+                    <div class="status-icon">
+                        📞
+                    </div>
+
+
+                    <div>
+
+                        <div class="status-label">
+                            SAFETY CALL
+                        </div>
+
+
+                        <div
+                            id="callStatus"
+                            class="status-value"
+                        >
+                            Starting
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <div
-                id="mainStatusDescription"
-                class="status-description"
-            >
-                Please keep your phone nearby.
+
+            <div class="status-row">
+
+                <div class="status-left">
+
+                    <div class="status-icon">
+                        📍
+                    </div>
+
+
+                    <div>
+
+                        <div class="status-label">
+                            LOCATION
+                        </div>
+
+
+                        <div
+                            id="locationStatus"
+                            class="status-value"
+                        >
+                            Starting
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+
+            <div class="status-row">
+
+                <div class="status-left">
+
+                    <div class="status-icon">
+                        ⏱
+                    </div>
+
+
+                    <div>
+
+                        <div class="status-label">
+                            SESSION TIME
+                        </div>
+
+
+                        <div
+                            id="sessionTime"
+                            class="status-value"
+                        >
+                            00:00
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
 
         </div>
 
 
-        <div class="card">
-
-            <div class="info-row">
-
-                <span class="info-label">
-                    📞 Call
-                </span>
-
-                <span
-                    id="callStatus"
-                    class="info-value"
-                >
-                    Starting
-                </span>
-
-            </div>
-
-
-            <div class="info-row">
-
-                <span class="info-label">
-                    📍 Location
-                </span>
-
-                <span
-                    id="locationStatus"
-                    class="info-value"
-                >
-                    Starting
-                </span>
-
-            </div>
-
-
-            <div class="info-row">
-
-                <span class="info-label">
-                    ⏱ Session
-                </span>
-
-                <span
-                    id="sessionTime"
-                    class="info-value"
-                >
-                    00:00
-                </span>
-
-            </div>
-
-        </div>
-
+        <!-- ================================== -->
+        <!-- DANGER CARD                        -->
+        <!-- ================================== -->
 
         <div
             id="dangerCard"
-            class="card danger hidden"
+            class="danger-card hidden"
         >
 
-            <div class="status">
-                🚨 Safety Alert
+            <div class="danger-label">
+                SAFETY ALERT
             </div>
 
-            <p>
-                CALL-E detected a possible safety
-                incident and your trusted contact
-                has been alerted.
-            </p>
 
-            <p id="dangerReason">
-            </p>
+            <div class="danger-title">
+                Danger detected
+            </div>
+
+
+            <div class="danger-description">
+                WAFE detected a possible safety
+                incident. Your trusted contact
+                has been alerted.
+            </div>
+
+
+            <div
+                id="dangerReason"
+                class="danger-reason"
+            >
+            </div>
 
         </div>
 
+
+        <!-- ================================== -->
+        <!-- END SESSION                        -->
+        <!-- ================================== -->
 
         <div class="card">
 
             <button
                 id="stopButton"
-                class="stop-button"
+                class="danger-button"
                 onclick="endWalk()"
             >
                 End Walk
@@ -406,7 +985,14 @@
 
         </div>
 
-    </div>
+
+        <div class="footer">
+            Stay aware of your surroundings.
+        </div>
+
+
+    </section>
+
 
 </div>
 
@@ -421,18 +1007,20 @@ let locationWatchId = null;
 
 let sessionStartedAt = null;
 
-let previousAlertIds = new Set();
+let timerInterval = null;
 
 
-/* ---------------------------------- */
-/* START SESSION                      */
-/* ---------------------------------- */
+/* ==========================================
+   START WALK
+========================================== */
 
 async function startWalk() {
 
     const phoneNumber =
         document
-            .getElementById("phoneNumber")
+            .getElementById(
+                "phoneNumber"
+            )
             .value
             .trim();
 
@@ -445,6 +1033,18 @@ async function startWalk() {
 
         return;
     }
+
+
+    const button =
+        document.querySelector(
+            ".primary-button"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Starting...";
 
 
     try {
@@ -489,13 +1089,17 @@ async function startWalk() {
 
 
         document
-            .getElementById("startScreen")
+            .getElementById(
+                "startScreen"
+            )
             .classList
             .add("hidden");
 
 
         document
-            .getElementById("activeScreen")
+            .getElementById(
+                "activeScreen"
+            )
             .classList
             .remove("hidden");
 
@@ -504,7 +1108,7 @@ async function startWalk() {
 
         startStatusPolling();
 
-        updateTimer();
+        startTimer();
 
 
     } catch (error) {
@@ -512,26 +1116,30 @@ async function startWalk() {
         console.error(error);
 
         alert(
-            "Could not start your safety session."
+            "Could not start the safety session."
         );
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Start Walk Home";
     }
 }
 
 
-/* ---------------------------------- */
-/* LOCATION                            */
-/* ---------------------------------- */
+/* ==========================================
+   GPS
+========================================== */
 
 function startLocationTracking() {
 
     if (!navigator.geolocation) {
 
-        document
-            .getElementById(
-                "locationStatus"
-            )
-            .textContent =
-            "Unavailable";
+        setText(
+            "locationStatus",
+            "Unavailable"
+        );
 
         return;
     }
@@ -543,6 +1151,7 @@ function startLocationTracking() {
             async function(position) {
 
                 const location = {
+
                     session_id:
                         sessionId,
 
@@ -554,46 +1163,52 @@ function startLocationTracking() {
 
                     accuracy:
                         position.coords.accuracy
+
                 };
 
 
                 try {
 
-                    await fetch(
-                        "/api/location",
-                        {
-                            method: "POST",
+                    const response =
+                        await fetch(
+                            "/api/location",
+                            {
+                                method: "POST",
 
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
 
-                            body:
-                                JSON.stringify(
-                                    location
-                                )
-                        }
-                    );
+                                body:
+                                    JSON.stringify(
+                                        location
+                                    )
+                            }
+                        );
 
 
-                    document
-                        .getElementById(
-                            "locationStatus"
-                        )
-                        .textContent =
-                        "Active";
+                    if (response.ok) {
+
+                        setText(
+                            "locationStatus",
+                            "Active"
+                        );
+
+                    }
+
 
                 } catch (error) {
 
                     console.error(
-                        "GPS update failed:",
+                        "Location update failed:",
                         error
                     );
 
                 }
 
             },
+
 
             function(error) {
 
@@ -602,32 +1217,28 @@ function startLocationTracking() {
                     error
                 );
 
-                document
-                    .getElementById(
-                        "locationStatus"
-                    )
-                    .textContent =
-                    "Unavailable";
+
+                setText(
+                    "locationStatus",
+                    "Unavailable"
+                );
 
             },
 
+
             {
-                enableHighAccuracy:
-                    true,
-
-                maximumAge:
-                    5000,
-
-                timeout:
-                    10000
+                enableHighAccuracy: true,
+                maximumAge: 5000,
+                timeout: 10000
             }
+
         );
 }
 
 
-/* ---------------------------------- */
-/* SESSION STATUS                     */
-/* ---------------------------------- */
+/* ==========================================
+   STATUS POLLING
+========================================== */
 
 function startStatusPolling() {
 
@@ -666,9 +1277,7 @@ async function updateSessionStatus() {
             await response.json();
 
 
-        updateUI(
-            data
-        );
+        updateUI(data);
 
 
         await checkAlerts();
@@ -680,13 +1289,14 @@ async function updateSessionStatus() {
             "Status update failed:",
             error
         );
+
     }
 }
 
 
-/* ---------------------------------- */
-/* UPDATE UI                          */
-/* ---------------------------------- */
+/* ==========================================
+   UPDATE STATUS UI
+========================================== */
 
 function updateUI(data) {
 
@@ -694,53 +1304,75 @@ function updateUI(data) {
         data.calle_status;
 
 
-    const callStatus =
-        document.getElementById(
-            "callStatus"
-        );
-
-
-    callStatus.textContent =
-        calleStatus;
+    setText(
+        "callStatus",
+        formatStatus(
+            calleStatus
+        )
+    );
 
 
     if (
         calleStatus === "queued"
     ) {
 
-        setNormalStatus(
-            "🟡 CALL STARTING",
-            "CALL-E is preparing your phone call."
+        setNormalState(
+
+            "starting",
+
+            "📞",
+
+            "Starting your call",
+
+            "Preparing your safety call."
         );
 
-    }
-    else if (
+
+    } else if (
         calleStatus === "in_progress"
     ) {
 
-        setNormalStatus(
-            "🟢 CALL-E IS WITH YOU",
+        setNormalState(
+
+            "safe",
+
+            "🟢",
+
+            "WAFE is with you",
+
             "Stay on the line while you walk."
         );
 
-    }
-    else if (
+
+    } else if (
         calleStatus === "completed"
     ) {
 
-        setNormalStatus(
-            "⚪ SESSION ENDED",
-            "Your CALL-E safety session has ended."
+        setNormalState(
+
+            "safe",
+
+            "✓",
+
+            "Session complete",
+
+            "Your Walk Me Home session has ended."
         );
 
-    }
-    else if (
+
+    } else if (
         calleStatus === "failed"
     ) {
 
-        setNormalStatus(
-            "⚠️ CALL FAILED",
-            "The CALL-E phone call could not be completed."
+        setNormalState(
+
+            "starting",
+
+            "⚠️",
+
+            "Call unavailable",
+
+            "The safety call could not be completed."
         );
 
     }
@@ -748,45 +1380,47 @@ function updateUI(data) {
 }
 
 
-/* ---------------------------------- */
-/* NORMAL STATUS                      */
-/* ---------------------------------- */
+/* ==========================================
+   NORMAL STATE
+========================================== */
 
-function setNormalStatus(
+function setNormalState(
+    type,
+    icon,
     title,
     description
 ) {
 
-    document
-        .getElementById("statusTitle")
-        .textContent = title;
+    const orb =
+        document.getElementById(
+            "stateOrb"
+        );
 
 
-    document
-        .getElementById("statusDescription")
-        .textContent =
-        description;
+    orb.className =
+        `state-orb ${type}`;
 
 
-    document
-        .getElementById("mainStatus")
-        .textContent =
-        title;
+    orb.textContent =
+        icon;
 
 
-    document
-        .getElementById(
-            "mainStatusDescription"
-        )
-        .textContent =
-        description;
+    setText(
+        "statusTitle",
+        title
+    );
 
+
+    setText(
+        "statusDescription",
+        description
+    );
 }
 
 
-/* ---------------------------------- */
-/* ALERTS                             */
-/* ---------------------------------- */
+/* ==========================================
+   ALERTS
+========================================== */
 
 async function checkAlerts() {
 
@@ -796,6 +1430,11 @@ async function checkAlerts() {
             await fetch(
                 "/api/alerts"
             );
+
+
+        if (!response.ok) {
+            return;
+        }
 
 
         const data =
@@ -827,140 +1466,146 @@ async function checkAlerts() {
             "Alert check failed:",
             error
         );
+
     }
 }
 
 
 function showDanger(alert) {
 
-    document
-        .getElementById(
-            "heroIcon"
-        )
-        .textContent = "🚨";
-
-
-    document
-        .getElementById(
-            "statusTitle"
-        )
-        .textContent =
-        "DANGER DETECTED";
-
-
-    document
-        .getElementById(
-            "statusDescription"
-        )
-        .textContent =
-        "Your trusted contact has been alerted.";
-
-
-    document
-        .getElementById(
-            "mainStatus"
-        )
-        .textContent =
-        "🔴 DANGER";
-
-
-    document
-        .getElementById(
-            "mainStatusDescription"
-        )
-        .textContent =
-        "Please move to a safe location if possible.";
-
-
-    document
-        .getElementById(
-            "dangerCard"
-        )
-        .classList
-        .remove("hidden");
-
-
-    document
-        .getElementById(
-            "dangerReason"
-        )
-        .textContent =
-        alert.message;
-
-
-    document
-        .getElementById(
-            "activeScreen"
-        )
-        .classList
-        .add("danger");
-}
-
-
-/* ---------------------------------- */
-/* TIMER                              */
-/* ---------------------------------- */
-
-function updateTimer() {
-
-    if (!sessionStartedAt) {
-        return;
-    }
-
-
-    const now =
-        new Date();
-
-
-    const seconds =
-        Math.floor(
-            (
-                now -
-                sessionStartedAt
-            ) / 1000
+    const orb =
+        document.getElementById(
+            "stateOrb"
         );
 
 
-    const minutes =
-        Math.floor(
-            seconds / 60
-        );
+    orb.className =
+        "state-orb danger";
 
 
-    const remaining =
-        seconds % 60;
+    orb.textContent =
+        "🚨";
 
 
-    document
-        .getElementById(
-            "sessionTime"
-        )
-        .textContent =
-        `${String(minutes).padStart(2, "0")}:` +
-        `${String(remaining).padStart(2, "0")}`;
-
-
-    setTimeout(
-        updateTimer,
-        1000
+    setText(
+        "statusTitle",
+        "Danger detected"
     );
+
+
+    setText(
+        "statusDescription",
+        "Your trusted contact has been alerted."
+    );
+
+
+    const card =
+        document.getElementById(
+            "dangerCard"
+        );
+
+
+    card.classList.remove(
+        "hidden"
+    );
+
+
+    const reason =
+        document.getElementById(
+            "dangerReason"
+        );
+
+
+    reason.textContent =
+        extractReason(
+            alert.message
+        );
 }
 
 
-/* ---------------------------------- */
-/* END SESSION                        */
-/* ---------------------------------- */
+/* ==========================================
+   END WALK
+========================================== */
 
-function endWalk() {
+async function endWalk() {
 
     if (
         !confirm(
             "End your Walk Me Home session?"
         )
     ) {
+
         return;
     }
 
+
+    const button =
+        document.getElementById(
+            "stopButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Ending...";
+
+
+    try {
+
+        await fetch(
+            `/api/session/end/${sessionId}`,
+            {
+                method: "POST"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not end session:",
+            error
+        );
+    }
+
+
+    stopTracking();
+
+
+    setNormalState(
+
+        "safe",
+
+        "✓",
+
+        "Session ended",
+
+        "Your Walk Me Home session has ended."
+    );
+
+
+    setText(
+        "callStatus",
+        "Ended"
+    );
+
+
+    setText(
+        "locationStatus",
+        "Stopped"
+    );
+
+
+    button.textContent =
+        "Session Ended";
+}
+
+
+/* ==========================================
+   STOP TRACKING
+========================================== */
+
+function stopTracking() {
 
     if (
         locationWatchId !== null
@@ -971,6 +1616,9 @@ function endWalk() {
             .clearWatch(
                 locationWatchId
             );
+
+        locationWatchId =
+            null;
     }
 
 
@@ -981,34 +1629,166 @@ function endWalk() {
         clearInterval(
             statusInterval
         );
+
+        statusInterval =
+            null;
     }
 
 
-    document
-        .getElementById(
-            "statusTitle"
-        )
-        .textContent =
-        "Session Ended";
+    if (
+        timerInterval !== null
+    ) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval =
+            null;
+    }
+}
 
 
-    document
-        .getElementById(
-            "statusDescription"
-        )
-        .textContent =
-        "You can safely close this page.";
+/* ==========================================
+   TIMER
+========================================== */
+
+function startTimer() {
+
+    updateTimer();
 
 
-    document
-        .getElementById(
-            "stopButton"
-        )
-        .disabled = true;
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+}
 
+
+function updateTimer() {
+
+    if (!sessionStartedAt) {
+        return;
+    }
+
+
+    const elapsed =
+        Math.floor(
+            (
+                new Date() -
+                sessionStartedAt
+            ) / 1000
+        );
+
+
+    const minutes =
+        Math.floor(
+            elapsed / 60
+        );
+
+
+    const seconds =
+        elapsed % 60;
+
+
+    setText(
+
+        "sessionTime",
+
+        `${String(minutes).padStart(2, "0")}:` +
+        `${String(seconds).padStart(2, "0")}`
+
+    );
+}
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+    }
+}
+
+
+function formatStatus(
+    status
+) {
+
+    const map = {
+
+        queued:
+            "Waiting",
+
+        in_progress:
+            "Active",
+
+        completed:
+            "Completed",
+
+        failed:
+            "Failed",
+
+        canceled:
+            "Canceled"
+
+    };
+
+
+    return (
+        map[status] ||
+        status
+    );
+}
+
+
+function extractReason(
+    message
+) {
+
+    if (!message) {
+
+        return (
+            "A safety incident was detected."
+        );
+    }
+
+
+    const match =
+        message.match(
+            /Reason:\s*([\s\S]*?)(?:\n\n|Last known location:|Time:)/
+        );
+
+
+    if (match) {
+
+        return match[1].trim();
+
+    }
+
+
+    return (
+        "A safety incident was detected."
+    );
 }
 
 </script>
 
 </body>
+
 </html>
